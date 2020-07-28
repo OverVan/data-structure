@@ -13,6 +13,19 @@ class HeroNode {
 	private String nickName;// 绰号
 	private HeroNode next;// 后继节点
 
+	/**
+	 * 仅初始化数据域，next默认为null
+	 * 
+	 * @param no
+	 * @param name
+	 * @param nickName
+	 */
+	public HeroNode(int no, String name, String nickName) {
+		this.no = no;
+		this.name = name;
+		this.nickName = nickName;
+	}
+
 	public String getNickName() {
 		return nickName;
 	}
@@ -41,19 +54,6 @@ class HeroNode {
 		this.next = next;
 	}
 
-	/**
-	 * 仅初始化数据域，next默认为null
-	 * 
-	 * @param no
-	 * @param name
-	 * @param nickName
-	 */
-	public HeroNode(int no, String name, String nickName) {
-		this.no = no;
-		this.name = name;
-		this.nickName = nickName;
-	}
-
 	@Override
 	public String toString() {
 		// 换个好看的样子
@@ -62,7 +62,7 @@ class HeroNode {
 }
 
 /**
- * 单链表
+ * 单向链表
  * 
  * @author Van
  */
@@ -75,7 +75,7 @@ public class SingleLinkedList {
 	}
 
 	/**
-	 * 显示链表
+	 * 显示单链表
 	 */
 	public void showList() {
 		// 空链表显示个毛
@@ -238,13 +238,12 @@ public class SingleLinkedList {
 		}
 		// 最终要么停到最后一个结点，要么停到待删结点的前驱
 		if (cursor.getNext() == null) {
-			System.out.println("指定的好汉" + no + "没找到，无法删除");
+			System.out.println("要删的好汉" + no + "没找到，无法删除");
 			return false;
 		} else {
 			// 删除结点
-			HeroNode deleted = cursor.getNext();
-			cursor.setNext(deleted.getNext());
-//			deleted.setNext(null);
+			cursor.setNext(cursor.getNext().getNext());
+//			cursor.getNext().setNext(null);
 			return true;
 		}
 	}
