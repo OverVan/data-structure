@@ -175,6 +175,7 @@ public class Calculator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// 可人为地将数字或运算符用空格隔开，这样就不用麻烦地拼数字了
 		System.out.println("输入一行四则运算式：");
 		// 输入流
 		Scanner scanner = new Scanner(System.in);
