@@ -402,17 +402,8 @@ public class SingleLinkedList {
 		// 双游标
 		HeroNode cursor1 = list1.getHead().getNext();
 		HeroNode cursor2 = list2.getHead().getNext();
-		// 归并排序循环
-		while (cursor1 != null || cursor2 != null) {
-			// 只要有一方全部挂上去那么就直接挂上另一方剩余的结点并终止循环
-			if (cursor1 == null) {
-				mergedList.addList(cursor2);
-				break;
-			}
-			if (cursor2 == null) {
-				mergedList.addList(cursor1);
-				break;
-			}
+		// 归并排序，任一方游标到了null就退出循环
+		while (cursor1 != null && cursor2 != null) {
 			// 两方链表挨个儿比编号，必有且仅有一方挂上一个
 			if (cursor1.getNo() < cursor2.getNo()) {
 				// 预先拿出游标的后继
@@ -426,6 +417,13 @@ public class SingleLinkedList {
 				mergedList.addNode(cursor2);
 				cursor2 = temp;
 			}
+		}
+		// 必然有一方先行全部挂上去，那么就直接挂上另一方剩余的结点
+		if (cursor1 == null) {
+			mergedList.addList(cursor2);
+		}
+		if (cursor2 == null) {
+			mergedList.addList(cursor1);
 		}
 		// 返回合并链表
 		return mergedList;
