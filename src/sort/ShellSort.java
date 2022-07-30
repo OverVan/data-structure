@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 希尔排序
+ * 希尔排序（插入排序的改进版）
  * 
  * @author Van
  */

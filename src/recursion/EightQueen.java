@@ -42,7 +42,7 @@ public class EightQueen {
 	}
 
 	/**
-	 * 摆放第n个皇后。循环加递归瞩目
+	 * 摆放第n个皇后。循环加递归令人瞩目
 	 * 
 	 * @param n
 	 */
