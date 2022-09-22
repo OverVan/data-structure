@@ -1,160 +1,147 @@
 package linkedList;
 
 /**
- * 诗人结点
- * 
- * @author Van
- */
-class PoetNode {
-	private int no;// 编号
-	private String name;// 姓名
-	private PoetNode next;// 后继节点
-	private PoetNode prior;// 前驱结点
-
-	/**
-	 * 仅初始化数据域，next和prior默认为null
-	 * 
-	 * @param no
-	 * @param name
-	 * @param nickName
-	 */
-	public PoetNode(int no, String name) {
-		this.no = no;
-		this.name = name;
-	}
-
-	public int getNo() {
-		return no;
-	}
-
-	public PoetNode getNext() {
-		return next;
-	}
-
-	public void setNext(PoetNode next) {
-		this.next = next;
-	}
-
-	public PoetNode getPrior() {
-		return prior;
-	}
-
-	public void setPrior(PoetNode prior) {
-		this.prior = prior;
-	}
-
-	@Override
-	public String toString() {
-		return "PoetNode [no=" + no + ", name=" + name + "]";
-	}
-}
-
-/**
  * 双向链表
  * 
- * @author Van
+ * @param <Elem> 元素类型
  */
-public class DoubleLinkedList {
-	// 头结点，不存放任何数据
-	private PoetNode head = new PoetNode(0, "");
+public class DoubleLinkedList<Elem> {
+	/**
+	 * 结点
+	 */
+	private class Node {
+		// 元素
+		private Elem elem;
+		// 后继
+		private Node next;
+		// 前驱
+		private Node prev;
+
+		public Node(Elem elem, Node next, Node prev) {
+			this.elem = elem;
+			this.next = next;
+			this.prev = prev;
+		}
+
+		public Node(Elem elem) {
+			this(elem, null, null);
+		}
+
+		@Override
+		public String toString() {
+			return elem.toString();
+		}
+	}
+
+	// 虚拟头结点
+	private Node dummyHead;
+	// 尾结点
+	private Node tail;
+	private int size;
+
+	public DoubleLinkedList() {
+		dummyHead = new Node(null);
+		tail = dummyHead;
+	}
+
+	public boolean isEmpty() {
+		return size == 0;
+	}
 
 	/**
-	 * 显示双向链表
+	 * 头插 O(1)
+	 * 
+	 * @param elem
 	 */
-	public void showList() {
-		// 空链表显示个毛
-		if (head.getNext() == null) {
-			System.out.println("双向链表为空");
+	public void addFirst(Elem elem) {
+		Node add = new Node(elem, dummyHead.next, dummyHead);
+		if (isEmpty()) {
+			dummyHead.next = add;
+			// tail指向变化
+			tail = dummyHead.next;
 		} else {
-			// 打印每一个结点的信息
-			PoetNode cursor = head.getNext();
-			while (cursor != null) {
-				System.out.println(cursor + " ——> ");
-				cursor = cursor.getNext();
+			dummyHead.next.prev = add;
+			dummyHead.next = add;
+		}
+		size++;
+	}
+
+	/**
+	 * 尾插 O(1)
+	 * 
+	 * @param elem
+	 */
+	public void addLast(Elem elem) {
+		tail.next = new Node(elem, null, tail);
+		tail = tail.next;
+		size++;
+	}
+
+	/**
+	 * 头删 O(1)
+	 * 
+	 * @return
+	 */
+	public Elem removeFirst() {
+		if (isEmpty()) {
+			throw new RuntimeException("链表为空，无法删除");
+		}
+		Node del = dummyHead.next;
+		dummyHead.next = del.next;
+		size--;
+		if (isEmpty()) {
+			// tail指向变化
+			tail = dummyHead;
+		} else {
+			del.next.prev = dummyHead;
+		}
+		del.next = null;
+		del.prev = null;
+		return del.elem;
+	}
+
+	/**
+	 * 尾删 O(1)
+	 * 
+	 * @return
+	 */
+	public Elem removeLast() {
+		if (size == 0) {
+			throw new RuntimeException("链表为空，无法删除");
+		}
+		Node del = tail;
+		del.prev.next = null;
+		tail = tail.prev;
+		del.prev = null;
+		size--;
+		return del.elem;
+	}
+
+	public String toNormalString() {
+		StringBuilder res = new StringBuilder();
+		res.append("DoubleLinkedList normal [");
+		Node cursor = dummyHead.next;
+		while (cursor != null) {
+			res.append(cursor.elem);
+			if (cursor.next != null) {
+				res.append("->");
+			}
+			cursor = cursor.next;
+		}
+		res.append("]");
+		return res.toString();
+	}
+
+	public String toReverseString() {
+		StringBuilder res = new StringBuilder();
+		res.append("DoubleLinkedList reverse [");
+		for (Node cursor = tail; cursor != dummyHead; cursor = cursor.prev) {
+			res.append(cursor.elem);
+			if (cursor.prev != dummyHead) {
+				res.append("->");
 			}
 		}
+		res.append("]");
+		return res.toString();
 	}
-
-	/**
-	 * 添加一个结点（尾插）
-	 * 
-	 * @param heroNode 待添结点
-	 */
-	public void addNode(PoetNode poetNode) {
-		// 游标结点
-		PoetNode cursor = head;
-		// 只要游标的后继非空，游标就后移
-		while (cursor.getNext() != null) {
-			cursor = cursor.getNext();
-		}
-		// 找到尾结点，接上要添加的结点
-		cursor.setNext(poetNode);
-		// 令更新的尾结点的后继为null
-		poetNode.setNext(null);
-		// 链上更新的尾结点的前驱
-		poetNode.setPrior(cursor);
-	}
-
-	/**
-	 * 删除指定编号的结点
-	 * 
-	 * @param no
-	 * @return true：删除成功；false：删除失败
-	 */
-	public boolean delete(int no) {
-		// 空链表删个毛
-		if (head.getNext() == null) {
-			System.out.println("双向链表为空");
-			return false;
-		}
-		// 游标结点
-		PoetNode cursor = head;
-		// 若游标的后继非空且后继的编号不符，则游标后移
-		while (cursor.getNext() != null && cursor.getNext().getNo() != no) {
-			cursor = cursor.getNext();
-		}
-		// 最终要么停到尾结点，要么停到待删结点的前驱
-		if (cursor.getNext() == null) {
-			System.out.println("要删的诗人" + no + "没找到，无法删除");
-			return false;
-		} else {
-			// 删除最后一个结点与删除普通结点分开看待
-			if (cursor.getNext().getNext() != null) {
-				cursor.getNext().getNext().setPrior(cursor);
-			}
-			cursor.setNext(cursor.getNext().getNext());
-			return true;
-		}
-	}
-
-	/**
-	 * 测试
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// 初始化双向链表
-		DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
-		// 一系列诗人结点
-		PoetNode poet1 = new PoetNode(1, "李白");
-		PoetNode poet2 = new PoetNode(2, "杜甫");
-		PoetNode poet3 = new PoetNode(3, "韩愈");
-		PoetNode poet4 = new PoetNode(4, "白居易");
-		PoetNode poet5 = new PoetNode(5, "苏轼");
-		// 链起来
-		doubleLinkedList.addNode(poet1);
-		doubleLinkedList.addNode(poet2);
-		doubleLinkedList.addNode(poet3);
-		doubleLinkedList.addNode(poet4);
-		doubleLinkedList.addNode(poet5);
-		// 展示双链表
-		doubleLinkedList.showList();
-
-		// 删除最后一个结点
-		doubleLinkedList.delete(5);
-		// 展示双链表
-		System.out.println("删除最后一个结点得到：");
-		doubleLinkedList.showList();
-	}
-
 }

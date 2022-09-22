@@ -33,10 +33,10 @@ public class FibonacciSearch {
 	}
 
 	/**
-	 * 查找一个目标元素
+	 * 查找一个指定元素
 	 * 
-	 * @param target 目标元素
-	 * @return 查到的目标元素的下标
+	 * @param target 元素
+	 * @return 下标
 	 */
 	public int searchOne(int target) {
 		int left = 0;

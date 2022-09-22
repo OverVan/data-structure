@@ -2,8 +2,6 @@ package tree;
 
 /**
  * 结点
- * 
- * @author Van
  */
 class ThreadedNode {
 	private int data;// 数据

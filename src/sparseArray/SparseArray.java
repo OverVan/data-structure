@@ -2,8 +2,6 @@ package sparseArray;
 
 /**
  * 稀疏数组
- * 
- * @author Van
  */
 public class SparseArray {
 

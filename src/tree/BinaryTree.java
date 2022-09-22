@@ -1,51 +1,67 @@
 package tree;
 
-/**
- * 结点
- * 
- * @author Van
- */
-class Node {
-	private int data;// 数据（这里就用整数）
-	private Node left;// 左孩子结点
-	private Node right;// 右孩子结点
-
-	public Node(int data) {
-		this.data = data;
-	}
-
-	public Node getLeft() {
-		return left;
-	}
-
-	public void setLeft(Node left) {
-		this.left = left;
-	}
-
-	public Node getRight() {
-		return right;
-	}
-
-	public void setRight(Node right) {
-		this.right = right;
-	}
-
-	public int getData() {
-		return data;
-	}
-
-	@Override
-	public String toString() {
-		return "Node [data=" + data + "]";
-	}
-}
+import java.util.Objects;
 
 /**
- * 二叉树
+ * 二叉树 方法统一基于递归
  * 
- * @author Van
+ * @param <Elem> 元素类型
  */
-public class BinaryTree {
+public class BinaryTree<Elem> {
+	/**
+	 * 结点
+	 */
+	public class Node {
+		// 元素
+		private Elem elem;
+		// 左孩子
+		private Node left;
+		// 右孩子
+		private Node right;
+
+		public Node(Elem elem, Node left, Node right) {
+			this.elem = elem;
+			this.left = left;
+			this.right = right;
+		}
+
+		public Node(Elem elem) {
+			this(elem, null, null);
+		}
+
+		/**
+		 * 填充元素
+		 * 
+		 * @param elem 元素
+		 */
+		public void setElem(Elem elem) {
+			this.elem = elem;
+		}
+
+		/**
+		 * 添加左孩子
+		 * 
+		 * @param left 左孩子
+		 */
+		public void setLeft(Node left) {
+			this.left = left;
+		}
+
+		/**
+		 * 添加右孩子
+		 * 
+		 * @param right 右孩子
+		 */
+		public void setRight(Node right) {
+			this.right = right;
+		}
+
+		@Override
+		public String toString() {
+			return elem.toString();
+		}
+	}
+
 	// 根结点
 	private Node root;
 
@@ -53,8 +69,12 @@ public class BinaryTree {
 		this.root = root;
 	}
 
-	public Node getRoot() {
-		return root;
+	public BinaryTree() {
+		super();
+	}
+
+	public boolean isEmpty() {
+		return root == null;
 	}
 
 	public void setRoot(Node root) {
@@ -62,211 +82,146 @@ public class BinaryTree {
 	}
 
 	/**
-	 * 先序遍历
+	 * 先序遍历当前二叉树
 	 * 
-	 * @param binTree 当前树的根结点
+	 * @param node 根结点
 	 */
-	public void preOrderTraversal(Node binTree) {
-		// 打印数据
-		System.out.print(binTree.getData());
-		// 先序遍历左子树
-		if (binTree.getLeft() != null) {
-			preOrderTraversal(binTree.getLeft());
+	private void preOrderTraverse(Node node) {
+		if (node != null) {
+			System.out.print(node.elem);
+			// 先序遍历左子树
+			preOrderTraverse(node.left);
+			// 先序遍历右子树
+			preOrderTraverse(node.right);
 		}
-		// 先序遍历右子树
-		if (binTree.getRight() != null) {
-			preOrderTraversal(binTree.getRight());
+	}
+
+	/**
+	 * 先序遍历
+	 */
+	public void preOrderTraverse() {
+		preOrderTraverse(root);
+	}
+
+	/**
+	 * 中序遍历当前二叉树
+	 * 
+	 * @param node 根结点
+	 */
+	private void inOrderTraverse(Node node) {
+		if (node != null) {
+			// 中序遍历左子树
+			inOrderTraverse(node.left);
+			System.out.print(node.elem);
+			// 中序遍历右子树
+			inOrderTraverse(node.right);
 		}
 	}
 
 	/**
 	 * 中序遍历
-	 * 
-	 * @param binTree 当前树的根结点
 	 */
-	public void inOrderTraversal(Node binTree) {
-		// 中序遍历左子树
-		if (binTree.getLeft() != null) {
-			inOrderTraversal(binTree.getLeft());
-		}
-		// 打印数据
-		System.out.print(binTree.getData());
-		// 中序遍历右子树
-		if (binTree.getRight() != null) {
-			inOrderTraversal(binTree.getRight());
+	public void inOrderTraverse() {
+		inOrderTraverse(root);
+	}
+
+	/**
+	 * 后序遍历当前二叉树
+	 * 
+	 * @param node 根结点
+	 */
+	private void postOrderTraverse(Node node) {
+		if (node != null) {
+			// 后序遍历左子树
+			postOrderTraverse(node.left);
+			// 后序遍历右子树
+			postOrderTraverse(node.right);
+			System.out.print(node.elem);
 		}
 	}
 
 	/**
 	 * 后序遍历
-	 * 
-	 * @param binTree 当前树的根结点
 	 */
-	public void postOrderTraversal(Node binTree) {
-		// 后序遍历左子树
-		if (binTree.getLeft() != null) {
-			postOrderTraversal(binTree.getLeft());
-		}
-		// 后序遍历右子树
-		if (binTree.getRight() != null) {
-			postOrderTraversal(binTree.getRight());
-		}
-		// 打印数据
-		System.out.print(binTree.getData());
+	public void postOrderTraverse() {
+		postOrderTraverse(root);
 	}
 
 	/**
-	 * 先序查找
+	 * 基于先序查找判断当前二叉树是否包含指定元素
 	 * 
-	 * @param binTree 当前树的根结点
-	 * @param target  目标数据
+	 * @param node 根结点
+	 * @param elem 元素
 	 * @return
 	 */
-	public Node preOrderSearch(Node binTree, int target) {
-		// 默认返回null
-		Node result = null;
-		// 比对本结点数据
-		if (binTree.getData() == target) {
-			return binTree;
-		}
-		// 先序查找左子树
-		if (binTree.getLeft() != null) {
-			result = preOrderSearch(binTree.getLeft(), target);
-			if (result != null) {
-				return result;
+	private boolean preOrderSearch(Node node, Elem elem) {
+		boolean exist = false;
+		if (node != null) {
+			if (Objects.equals(node.elem, elem)) {
+				exist = true;
+			}
+			// 先序查找左子树
+			if (exist == false) {
+				exist = preOrderSearch(node.left, elem);
+			}
+			// 先序查找右子树
+			if (exist == false) {
+				exist = preOrderSearch(node.right, elem);
 			}
 		}
-		// 先序查找右子树
-		if (binTree.getRight() != null) {
-			result = preOrderSearch(binTree.getRight(), target);
-			if (result != null) {
-				return result;
-			}
-		}
-		return result;
+		return exist;
 	}
 
 	/**
-	 * 中序查找
+	 * 基于先序查找判断是否包含指定元素
 	 * 
-	 * @param binTree 当前树的根结点
-	 * @param target  目标数据
+	 * @param elem 元素
 	 * @return
 	 */
-	public Node inOrderSearch(Node binTree, int target) {
-		// 默认返回null
-		Node result = null;
-		// 中序查找左子树
-		if (binTree.getLeft() != null) {
-			result = preOrderSearch(binTree.getLeft(), target);
-			if (result != null) {
-				return result;
-			}
-		}
-		// 比对本结点数据
-		if (binTree.getData() == target) {
-			return binTree;
-		}
-		// 中序查找右子树
-		if (binTree.getRight() != null) {
-			result = preOrderSearch(binTree.getRight(), target);
-			if (result != null) {
-				return result;
-			}
-		}
-		return result;
+	public boolean preOrderSearch(Elem elem) {
+		return preOrderSearch(root, elem);
 	}
 
 	/**
-	 * 后序查找
+	 * 基于中序查找在当前二叉树中删除指定元素
 	 * 
-	 * @param binTree 当前树的根结点
-	 * @param target  目标数据
+	 * @param node 根结点
+	 * @param elem 元素
 	 * @return
 	 */
-	public Node postOrderSearch(Node binTree, int target) {
-		// 默认返回null
-		Node result = null;
-		// 后序查找左子树
-		if (binTree.getLeft() != null) {
-			result = preOrderSearch(binTree.getLeft(), target);
-			if (result != null) {
-				return result;
+	private boolean inOrderRemove(Node node, Elem elem) {
+		boolean exist = false;
+		if (node != null) {
+			// 中序查找左子树
+			exist = inOrderRemove(node.left, elem);
+			// 凭父结点解挂目标结点
+			if (exist == false && node.left != null && Objects.equals(node.left.elem, elem)) {
+				node.left = null;
+				exist = true;
+			}
+			if (exist == false && node.right != null && Objects.equals(node.right.elem, elem)) {
+				node.right = null;
+				exist = true;
+			}
+			// 中序查找右子树
+			if (exist == false) {
+				exist = inOrderRemove(node.right, elem);
 			}
 		}
-		// 后序查找右子树
-		if (binTree.getRight() != null) {
-			result = preOrderSearch(binTree.getRight(), target);
-			if (result != null) {
-				return result;
-			}
-		}
-		// 比对本结点数据
-		if (binTree.getData() == target) {
-			return binTree;
-		}
-		return result;
+		return exist;
 	}
 
 	/**
-	 * 删除结点。对于非叶子结点，删除以之为根的树
+	 * 中序查找并删除指定元素，连带删除子树
 	 * 
-	 * @param target 目标数据
+	 * @param elem 元素
 	 */
-	public void deleteNode(Node binTree, int target) {
-		// 目标结点为根结点的情况
-		if (root.getData() == target) {
-			setRoot(null);
-			return;
+	public void inOrderRemove(Elem elem) {
+		if (Objects.equals(root.elem, elem)) {
+			// root没有父结点
+			root = null;
+		} else {
+			inOrderRemove(root, elem);
 		}
-		// 目标结点非根结点的情况
-		if (binTree.getLeft() != null && binTree.getLeft().getData() == target) {
-			binTree.setLeft(null);
-		} else if (binTree.getRight() != null && binTree.getRight().getData() == target) {
-			binTree.setRight(null);
-		} else if (binTree.getLeft() != null) {// 向左递归删除结点
-			deleteNode(binTree.getLeft(), target);
-		} else if (binTree.getRight() != null) {// 向右递归删除结点
-			deleteNode(binTree.getRight(), target);
-		}
-	}
-
-	/**
-	 * 测试
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// 手动搭二叉树
-		Node root = new Node(1);
-		Node node1 = new Node(3);
-		Node node2 = new Node(5);
-		Node node3 = new Node(4);
-		Node node4 = new Node(6);
-		Node node5 = new Node(2);
-		root.setLeft(node1);
-		root.setRight(node2);
-		node1.setLeft(node3);
-		node2.setLeft(node4);
-		node2.setRight(node5);
-		BinaryTree binaryTree = new BinaryTree(root);
-		// 先序遍历
-		binaryTree.preOrderTraversal(binaryTree.getRoot());
-		System.out.println();
-		// 中序遍历
-		binaryTree.inOrderTraversal(binaryTree.getRoot());
-		System.out.println();
-		// 后序遍历
-		binaryTree.postOrderTraversal(binaryTree.getRoot());
-		System.out.println();
-		// 先序查找
-		System.out.println(binaryTree.preOrderSearch(binaryTree.getRoot(), 1));
-		// 中序查找
-		System.out.println(binaryTree.inOrderSearch(binaryTree.getRoot(), 5));
-		// 后序查找
-		System.out.println(binaryTree.postOrderSearch(binaryTree.getRoot(), 2));
-		// 删除结点
-		binaryTree.deleteNode(binaryTree.getRoot(), 5);
-		binaryTree.preOrderTraversal(binaryTree.getRoot());
 	}
 }
