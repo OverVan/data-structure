@@ -1,7 +1,7 @@
 package sort;
 
 /**
- * 非递减排序 若考虑负数，像桶排序等算法就得改，采用设边界下标、分正负数桶组等策略
+ * 非递减排序 若考虑负数，像桶排序等算法就得改，采用分正负数桶组等策略
  * 
  * @param <Elem> 元素类型，要求可比，要么传入Comparator对象，不可取null
  */
@@ -20,7 +20,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 冒泡排序
+	 * 冒泡排序 最好O(n)；平均O(n2)；最坏O(n2)；空间O(1)；稳定
 	 * 
 	 * @param elems 元素数组
 	 */
@@ -46,7 +46,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 选择排序
+	 * 选择排序 最好O(n2)；平均O(n2)；最坏O(n2)；空间O(1)；不稳定
 	 * 
 	 * @param elems 元素数组
 	 */
@@ -75,7 +75,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 插入排序
+	 * 插入排序 最好O(n)；平均O(n2)；最坏(n2)；空间O(1)；稳定
 	 * 
 	 * @param elems 元素数组
 	 */
@@ -97,7 +97,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 快速排序
+	 * 快速排序 最好O(nlogn)；平均O(nlogn)；最坏(n2)；空间O(logn)-来自系统栈；不稳定
 	 * 
 	 * @param elems 元素数组
 	 * @param left  闭区间左端下标
@@ -105,7 +105,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	 * @param index 闭区间内枢轴下标
 	 */
 	public void quick(Elem[] elems, int left, int right, int index) {
-		// 左端下标等于右端下标-1个元素，直接返回
+		// 左端下标等于右端下标-仅1个元素，直接返回
 		if (left == right) {
 			return;
 		}
@@ -141,7 +141,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 计数排序，仅限整型元素
+	 * 计数排序，仅限整型元素 最好O(n+m)；平均O(n+m)；最坏O(n+m)；空间O(n+m)，不过此处没用到临时数组，故为O(n)；稳定
 	 * 
 	 * @param elems 元素数组
 	 */
@@ -174,7 +174,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 希尔排序
+	 * 希尔排序 最好O(n)；平均O(nlogn)；最坏O(n2)；空间O(1)；不稳定
 	 * 
 	 * @param elems
 	 */
@@ -201,7 +201,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 二分归并排序
+	 * 二分归并排序 最好O(nlogn)；平均O(nlogn)；最坏O(nlogn)；空间O(n)；稳定
 	 * 
 	 * @param elems 元素数组
 	 * @param left  闭区间左端下标
@@ -212,10 +212,9 @@ public class Sort<Elem extends Comparable<Elem>> {
 		 * 拆分阶段
 		 */
 		// 二分边界
-		int mid;
+		int mid = (left + right) / 2;
 		// 分到2个元素或1个元素便不再往下分，因这两种情况的两段自然非递减
 		if (right - left + 1 > 2) {
-			mid = (left + right) / 2;
 			// 递归地排左边
 			merge(elems, left, mid);
 			// 递归地排右边
@@ -224,7 +223,6 @@ public class Sort<Elem extends Comparable<Elem>> {
 		/**
 		 * 合并阶段，左右两组都是非递减的
 		 */
-		mid = (left + right) / 2;
 		// 双游标
 		int low = left;
 		int high = mid + 1;
@@ -244,7 +242,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 			}
 		}
 		// 必然有且仅有一组先行全部进中间数组，那么一次性插入另一组剩余元素
-		if (low == mid + 1) {
+		if (low > mid) {
 			for (int i = high; i <= right; i++, k++) {
 				tempElems[k] = elems[i];
 			}
@@ -314,12 +312,12 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 基于等宽区间的桶排序，此处限定元素类型为整型
+	 * 基于等宽区间的桶排序，此处限定元素类型为整型 最好O(n)；平均O(n)；最坏O(n)；空间O(m)；稳定
 	 * 
 	 * @param elems 元素数组
 	 */
 	public void bucketByConstantWidth(int[] elems) {
-		// 自行设计区间宽度，区间宽度并不是桶容量
+		// 自行设计区间宽度，区间宽度并不等于桶容量
 		int range = 10;
 		// 求最值以设计桶数
 		int min = elems[0];
@@ -352,7 +350,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 基数排序 只能从低位到高位排，桶与桶之间在当前位上是有序的
+	 * 基数排序 只能从低位到高位排，桶与桶之间在当前位上是有序的 最好O(n)；平均O(n*m)；最坏O(n2)(m=n)；空间O(n)；稳定
 	 * 
 	 * @param elems 元素类型 适合整型、字符串等类型
 	 */
@@ -391,7 +389,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	}
 
 	/**
-	 * 堆排序
+	 * 堆排序 最好O(nlogn)；平均O(nlogn)；最坏O(nlogn)；空间O(1)；不稳定
 	 * 
 	 * @param elems 元素数组
 	 */

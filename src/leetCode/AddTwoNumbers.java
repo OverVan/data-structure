@@ -32,21 +32,21 @@ public class AddTwoNumbers {
 	 */
 	public static ListNode addTwoNumbers(ListNode list1, ListNode list2) {
 		// 求加数链表的位数
-		int radix1 = 0;
-		int radix2 = 0;
+		int digit1 = 0;
+		int digit2 = 0;
 		ListNode cursor1 = list1;
 		ListNode cursor2 = list2;
 		while (cursor1 != null) {
 			cursor1 = cursor1.next;
-			radix1++;
+			digit1++;
 		}
 		while (cursor2 != null) {
 			cursor2 = cursor2.next;
-			radix2++;
+			digit2++;
 		}
-		int maxRadix = radix1 > radix2 ? radix1 : radix2;
-		// m及n(m<=n)位数的和的位数只能是n或n+1，于是和链表初始化位数为n
-		ListNode sumList = new ListNode(-1);
+		int maxRadix = digit1 > digit2 ? digit1 : digit2;
+		// m及n(m<=n)位数的和的位数只能是n或n+1，于是和链表初始化位数为n+1
+		ListNode sumList = new ListNode(-2);
 		ListNode cursor = sumList;
 		for (int i = 0; i < maxRadix + 1; i++, cursor = cursor.next) {
 			cursor.next = new ListNode(-1);
@@ -55,23 +55,23 @@ public class AddTwoNumbers {
 		cursor1 = list1;
 		cursor2 = list2;
 		cursor = sumList.next;
-		int val1 = 0;
-		int val2 = 0;
+		int radix1 = 0;
+		int radix2 = 0;
 		// d0=0
 		int carray = 0;
 		while (cursor != null) {
 			// 任一加数链表到头了，后续位均取0
 			if (cursor1 == null) {
-				val1 = 0;
+				radix1 = 0;
 			} else {
-				val1 = cursor1.val;
+				radix1 = cursor1.val;
 			}
 			if (cursor2 == null) {
-				val2 = 0;
+				radix2 = 0;
 			} else {
-				val2 = cursor2.val;
+				radix2 = cursor2.val;
 			}
-			int sum = val1 + val2 + carray;
+			int sum = radix1 + radix2 + carray;
 			cursor.val = sum % 10;
 			if (sum >= 10) {
 				carray = 1;
@@ -93,7 +93,7 @@ public class AddTwoNumbers {
 				cursor.next = null;
 				break;
 			}
-			cursor=cursor.next;
+			cursor = cursor.next;
 		}
 		return sumList.next;
 	}

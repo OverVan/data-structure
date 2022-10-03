@@ -29,7 +29,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode reverseByStack(ListNode head) {
+	public static ListNode byStack(ListNode head) {
 		Stack<ListNode> stack = new Stack<>();
 		ListNode cursor = head;
 		while (cursor != null) {
@@ -57,7 +57,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode reverseByArray(ListNode head) {
+	public static ListNode byArray(ListNode head) {
 		ListNode cursor = head;
 		int length = 0;
 		while (cursor != null) {
@@ -91,7 +91,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode reverseByInsert(ListNode head) {
+	public static ListNode headInsert(ListNode head) {
 		ListNode cursor = head;
 		ListNode newHead = null;
 		ListNode after = cursor;
@@ -117,7 +117,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode reverseByPointer(ListNode head) {
+	public static ListNode multiPointer(ListNode head) {
 		if (head == null) {
 			return head;
 		}
@@ -146,7 +146,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode reverseByRecur(ListNode head) {
+	public static ListNode recur(ListNode head) {
 		if (head == null) {
 			return null;
 		}
@@ -157,7 +157,7 @@ public class ReverseLinkedList {
 		ListNode subTail = head.next;
 		head.next = null;
 		// 恒返回原链表的尾结点
-		ListNode subHead = reverseByRecur(subTail);
+		ListNode subHead = recur(subTail);
 		subTail.next = head;
 		return subHead;
 	}
@@ -167,7 +167,7 @@ public class ReverseLinkedList {
 	 * 
 	 * @param head 头结点
 	 */
-	public static void traverse(ListNode head) {
+	private static void traverse(ListNode head) {
 		ListNode cursor = head;
 		while (cursor != null) {
 			System.out.println(cursor.val);
@@ -177,10 +177,6 @@ public class ReverseLinkedList {
 
 	public static void main(String[] args) {
 		ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-//		traverse(reverseByStack(head));
-//		traverse(reverseByArray(head));
-//		traverse(reverseByInsert(head));
-//		traverse(reverseByPointer(head));
-		traverse(reverseByRecur(head));
+		traverse(recur(head));
 	}
 }

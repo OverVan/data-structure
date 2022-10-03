@@ -50,7 +50,7 @@ public class HashTable<Key, Value> {
 	 * @return 位置
 	 */
 	private int hash(Key key) {
-		// 前一步是为了保持哈希值非负，0x7fffffff对应二进制即31个1并符号位0，表示int型的最大值
+		// 前一步是为了保持哈希值非负，0x7fffffff对应的二进制数为31个1并符号位0，表示int型的最大值
 		return (key.hashCode() & 0x7fffffff) % M;
 	}
 
