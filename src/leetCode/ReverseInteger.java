@@ -10,7 +10,7 @@ public class ReverseInteger {
 	 * @param x
 	 * @return
 	 */
-	public static int reverseString(int x) {
+	public static int withString(int x) {
 		String xString;
 		StringBuilder stringBuilder;
 		int reversed;
@@ -83,7 +83,7 @@ public class ReverseInteger {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(reverseString(120));
+		System.out.println(withString(120));
 		System.out.println(calculate(-123));
 	}
 }

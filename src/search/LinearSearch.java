@@ -14,7 +14,7 @@ public class LinearSearch<Elem> {
 	/**
 	 * 从指定数组中查找指定元素的第一个下标
 	 * 
-	 * @param elems 数组，最好无序
+	 * @param elems 数组
 	 * @param elem  元素
 	 * @return 下标
 	 */

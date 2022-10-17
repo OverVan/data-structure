@@ -4,27 +4,9 @@ package leetCode;
  * 24. 两两交换链表中的节点 https://leetcode.cn/problems/swap-nodes-in-pairs/
  */
 public class SwapNodesInPairs {
-	public static class ListNode {
-		int val;
-		ListNode next;
-
-		ListNode() {
-		}
-
-		ListNode(int val) {
-			this.val = val;
-		}
-
-		ListNode(int val, ListNode next) {
-			this.val = val;
-			this.next = next;
-		}
-	}
-
 	public static ListNode swapPairs(ListNode head) {
 		// 至少有两个结点
 		if (head != null && head.next != null) {
-			// 头结点统一操作
 			ListNode dummyHead = new ListNode(-1, head);
 			// 三指针
 			ListNode before = dummyHead;
@@ -48,24 +30,11 @@ public class SwapNodesInPairs {
 		return head;
 	}
 
-	/**
-	 * 遍历链表
-	 * 
-	 * @param head 头结点
-	 */
-	private static void traverse(ListNode head) {
-		ListNode cursor = head;
-		while (cursor != null) {
-			System.out.println(cursor.val);
-			cursor = cursor.next;
-		}
-	}
-
 	public static void main(String[] args) {
 //		ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, null)))));
 //		ListNode head = new ListNode(1, null);
 //		ListNode head = null;
 		ListNode head = new ListNode(1, new ListNode(2, null));
-		traverse(swapPairs(head));
+		ListNode.traverse(swapPairs(head));
 	}
 }

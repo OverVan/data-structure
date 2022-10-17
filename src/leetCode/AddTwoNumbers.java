@@ -4,23 +4,6 @@ package leetCode;
  * 2. 两数相加 https://leetcode.cn/problems/add-two-numbers/
  */
 public class AddTwoNumbers {
-	static class ListNode {
-		int val;
-		ListNode next;
-
-		ListNode() {
-		}
-
-		ListNode(int val) {
-			this.val = val;
-		}
-
-		ListNode(int val, ListNode next) {
-			this.val = val;
-			this.next = next;
-		}
-	}
-
 	/**
 	 * 用数列模拟：a1, a2, ..., an; b1, b2, ..., bn; cm = (am + bm + dm-1) % 10, m >= 1,
 	 * d0 = 0. e.g. c1 = (a1 + b1 + d0) % 10, d1 = (a1 + b1 + d0) > 10 ? 1 : 0; c2 =
@@ -30,7 +13,7 @@ public class AddTwoNumbers {
 	 * @param list2
 	 * @return 和链表
 	 */
-	public static ListNode addTwoNumbers(ListNode list1, ListNode list2) {
+	public static ListNode add(ListNode list1, ListNode list2) {
 		// 求加数链表的位数
 		int digit1 = 0;
 		int digit2 = 0;
@@ -98,19 +81,6 @@ public class AddTwoNumbers {
 		return sumList.next;
 	}
 
-	/**
-	 * 遍历链表
-	 * 
-	 * @param head 头结点
-	 */
-	public static void traverse(ListNode head) {
-		ListNode cursor = head;
-		while (cursor != null) {
-			System.out.println(cursor.val);
-			cursor = cursor.next;
-		}
-	}
-
 	public static void main(String[] args) {
 		ListNode list1 = new ListNode(2, new ListNode(4, new ListNode(3)));
 		ListNode list2 = new ListNode(5, new ListNode(6, new ListNode(4)));
@@ -119,6 +89,6 @@ public class AddTwoNumbers {
 //		list1 = new ListNode(9,
 //				new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9)))))));
 //		list2 = new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9))));
-		traverse(addTwoNumbers(list1, list2));
+		ListNode.traverse(add(list1, list2));
 	}
 }

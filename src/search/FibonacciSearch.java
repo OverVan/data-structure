@@ -4,8 +4,6 @@ import java.util.Arrays;
 
 /**
  * 斐波那契查找
- * 
- * @author Van
  */
 public class FibonacciSearch {
 	private int[] array;// 元素数组

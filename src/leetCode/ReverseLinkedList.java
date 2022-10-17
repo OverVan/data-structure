@@ -6,30 +6,13 @@ import java.util.Stack;
  * 206. 反转链表
  */
 public class ReverseLinkedList {
-	static class ListNode {
-		int val;
-		ListNode next;
-
-		ListNode() {
-		}
-
-		ListNode(int val) {
-			this.val = val;
-		}
-
-		ListNode(int val, ListNode next) {
-			this.val = val;
-			this.next = next;
-		}
-	}
-
 	/**
 	 * 中间栈
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode byStack(ListNode head) {
+	public static ListNode tempStack(ListNode head) {
 		Stack<ListNode> stack = new Stack<>();
 		ListNode cursor = head;
 		while (cursor != null) {
@@ -57,7 +40,7 @@ public class ReverseLinkedList {
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
-	public static ListNode byArray(ListNode head) {
+	public static ListNode tempArray(ListNode head) {
 		ListNode cursor = head;
 		int length = 0;
 		while (cursor != null) {
@@ -153,30 +136,17 @@ public class ReverseLinkedList {
 		if (head.next == null) {
 			return head;
 		}
-		// 子链表反转前的头结点-反转后的尾结点
+		// 子链表反转前的头结点即反转后的尾结点
 		ListNode subTail = head.next;
 		head.next = null;
-		// 恒返回原链表的尾结点
+		// 返回子链表反转前的尾结点即反转后的头结点
 		ListNode subHead = recur(subTail);
 		subTail.next = head;
 		return subHead;
 	}
 
-	/**
-	 * 遍历链表
-	 * 
-	 * @param head 头结点
-	 */
-	private static void traverse(ListNode head) {
-		ListNode cursor = head;
-		while (cursor != null) {
-			System.out.println(cursor.val);
-			cursor = cursor.next;
-		}
-	}
-
 	public static void main(String[] args) {
 		ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-		traverse(recur(head));
+		ListNode.traverse(recur(head));
 	}
 }

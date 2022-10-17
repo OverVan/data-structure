@@ -35,22 +35,22 @@ public class BinarySearch<Elem extends Comparable<Elem>> {
 	/**
 	 * 查找一个指定元素，循环
 	 * 
-	 * @param arr   单调递增数组
+	 * @param array 单调递增数组
 	 * @param left  闭区间左下标
 	 * @param right 闭区间右下标
 	 * @param elem  元素
 	 * @return 下标
 	 */
-	public int loopSearch(Elem[] arr, int left, int right, Elem elem) {
+	public int loopSearch(Elem[] array, int left, int right, Elem elem) {
 		int middle = 0;
 		// 一旦left>right，就说明目标元素不存在
 		while (left <= right) {
 			middle = (left + right) / 2;
-			if (elem.compareTo(arr[middle]) < 0) {
+			if (elem.compareTo(array[middle]) < 0) {
 				right = middle - 1;
 				continue;
 			}
-			if (elem.compareTo(arr[middle]) > 0) {
+			if (elem.compareTo(array[middle]) > 0) {
 				left = middle + 1;
 				continue;
 			}
