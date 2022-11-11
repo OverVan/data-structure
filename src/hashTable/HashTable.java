@@ -19,7 +19,7 @@ public class HashTable<Key, Value> {
 	private static final int[] CAPACITIES = { 53, 97, 193, 389, 769, 1543, 3079, 6151, 12289, 24593, 49157, 98317,
 			196613, 393241, 786433, 1572869, 3145739, 6291469, 12582917, 25165843, 50331653, 100663319, 201326611,
 			402653189, 805306457, 1610612741 };
-	// 取长度游标
+	// 取长度的游标
 	private int capacityIndex;
 	// 上界容忍度或扩容因子
 	private static final int UPPER_TOL = 10;
@@ -57,7 +57,7 @@ public class HashTable<Key, Value> {
 	/**
 	 * 对table变容
 	 * 
-	 * @param M 新容量
+	 * @param newM 新容量
 	 */
 	private void resize(int newM) {
 		TreeMap<Key, Value>[] newTalbe = new TreeMap[newM];

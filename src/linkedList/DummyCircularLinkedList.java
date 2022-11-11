@@ -3,11 +3,11 @@ package linkedList;
 import java.util.Objects;
 
 /**
- * 单向链表，带虚拟头结点
+ * 带虚拟头结点的单向循环链表
  * 
  * @param <Elem> 元素类型
  */
-public class DummyLinkedList<Elem> {
+public class DummyCircularLinkedList<Elem> {
 	/**
 	 * 结点
 	 */
@@ -17,56 +17,40 @@ public class DummyLinkedList<Elem> {
 		// 后继
 		private Node next;
 
-		/**
-		 * 实例化一个指定元素与后继的结点
-		 * 
-		 * @param elem 元素
-		 * @param next 后继
-		 */
 		public Node(Elem elem, Node next) {
+			super();
 			this.elem = elem;
 			this.next = next;
 		}
 
-		/**
-		 * 实例化一个指定元素、无后继的结点
-		 * 
-		 * @param elem 元素
-		 */
 		public Node(Elem elem) {
 			this(elem, null);
 		}
 
 		@Override
 		public String toString() {
-			// 只描述元素
 			return elem.toString();
 		}
 	}
 
 	// 虚拟头结点
 	private Node dummyHead;
-	// 长度-元素个数
+	// 尾结点
+	private Node tail;
+	// 长度
 	private int size;
 
-	/**
-	 * 实例化一个空链表
-	 */
-	public DummyLinkedList() {
+	public DummyCircularLinkedList() {
 		dummyHead = new Node(null);
-	}
-
-	/**
-	 * 获取长度
-	 * 
-	 * @return
-	 */
-	public int getSize() {
-		return size;
+		tail = dummyHead;
 	}
 
 	public boolean isEmpty() {
 		return size == 0;
+	}
+
+	public int getSize() {
+		return size;
 	}
 
 	/**
@@ -79,12 +63,29 @@ public class DummyLinkedList<Elem> {
 		if (index < 0 || index > size) {
 			throw new IllegalArgumentException("添加位置非法");
 		}
-		// 找到目标位置的前驱，统一头结点与其他结点
-		Node cursor = dummyHead;
-		for (int i = 0; i < index; i++) {
-			cursor = cursor.next;
+		// 头插，尾结点后继变化
+		if (index == 0) {
+			Node add = new Node(elem, dummyHead.next);
+			dummyHead.next = add;
+			// 第一次头插，头结点自反
+			if (isEmpty()) {
+				add.next = add;
+				tail = add;
+			} else {
+				add = tail.next;
+			}
+		} else {
+			Node cursor = dummyHead;
+			for (int i = 0; i < index; i++) {
+				cursor = cursor.next;
+			}
+			Node add = new Node(elem, cursor.next);
+			cursor.next = add;
+			// 尾插，尾结点变化
+			if (index == size) {
+				tail = add;
+			}
 		}
-		cursor.next = new Node(elem, cursor.next);
 		size++;
 	}
 
@@ -94,7 +95,6 @@ public class DummyLinkedList<Elem> {
 	 * @param elem 元素
 	 */
 	public void addFirst(Elem elem) {
-		// 复用add
 		add(0, elem);
 	}
 
@@ -104,7 +104,6 @@ public class DummyLinkedList<Elem> {
 	 * @param elem 元素
 	 */
 	public void addLast(Elem elem) {
-		// 复用add
 		add(size, elem);
 	}
 
@@ -142,7 +141,6 @@ public class DummyLinkedList<Elem> {
 	 * @return
 	 */
 	public Elem getFirst() {
-		// 复用get
 		return get(0);
 	}
 
@@ -178,7 +176,8 @@ public class DummyLinkedList<Elem> {
 	 */
 	public boolean contains(Elem elem) {
 		Node cursor = dummyHead.next;
-		while (cursor != null) {
+		// 由于循环，不能用cursor==null作退出条件
+		for (int i = 0; i < size; i++) {
 			if (Objects.equals(cursor.elem, elem)) {
 				return true;
 			}
@@ -195,16 +194,33 @@ public class DummyLinkedList<Elem> {
 	 */
 	public Elem remove(int index) {
 		validateIndex(index);
+		size--;
+		Node del;
+		// 头删，尾结点后继变化
+		if (index == 0) {
+			del = dummyHead.next;
+			// 删除仅有的一个结点
+			if (isEmpty()) {
+				dummyHead.next = null;
+				tail = dummyHead;
+			} else {
+				dummyHead.next = del.next;
+				tail = del.next;
+			}
+			del.next = null;
+			return del.elem;
+		}
 		Node cursor = dummyHead;
-		// 找到目标位置的前驱
 		for (int i = 0; i < index; i++) {
 			cursor = cursor.next;
 		}
-		Node del = cursor.next;
+		del = cursor.next;
+		// 尾删，尾结点变化
+		if (index == size - 1) {
+			tail = cursor;
+		}
 		cursor.next = del.next;
-		// 让被删结点不再接入链表
 		del.next = null;
-		size--;
 		return del.elem;
 	}
 
@@ -214,7 +230,6 @@ public class DummyLinkedList<Elem> {
 	 * @return
 	 */
 	public Elem removeFirst() {
-		// 复用remove
 		return remove(0);
 	}
 
@@ -227,57 +242,14 @@ public class DummyLinkedList<Elem> {
 		return remove(size - 1);
 	}
 
-	/**
-	 * 删除第一个指定元素
-	 * 
-	 * @param elem 元素
-	 */
-	public void removeElem(Elem elem) {
-		Node cursor = dummyHead;
-		Node del = null;
-		while (cursor.next != null) {
-			if (Objects.equals(cursor.next.elem, elem)) {
-				del = cursor.next;
-				cursor.next = del.next;
-				del.next = null;
-				size--;
-				// 找到一个马上退出
-				return;
-			} else {
-				cursor = cursor.next;
-			}
-		}
-	}
-
-	/**
-	 * 删除所有指定元素 循环 O(n)
-	 * 
-	 * @param elem 元素
-	 */
-	public void removeAll(Elem elem) {
-		Node cursor = dummyHead;
-		Node del = null;
-		while (cursor.next != null) {
-			if (Objects.equals(cursor.next.elem, elem)) {
-				del = cursor.next;
-				cursor.next = del.next;
-				del.next = null;
-				size--;
-			} else {
-				cursor = cursor.next;
-			}
-		}
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder res = new StringBuilder();
-		res.append("LinkedList [");
+		res.append("CircularLinkedList [");
 		Node cursor = dummyHead.next;
-		// 可等价替换为for，还是两种for，一种根据size以i循环，一种以cursor循环
-		while (cursor != null) {
+		for (int i = 0; i < size; i++) {
 			res.append(cursor.elem);
-			if (cursor.next != null) {
+			if (i != size - 1) {
 				res.append("->");
 			}
 			cursor = cursor.next;

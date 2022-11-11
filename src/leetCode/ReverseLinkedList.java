@@ -7,7 +7,7 @@ import java.util.Stack;
  */
 public class ReverseLinkedList {
 	/**
-	 * 中间栈
+	 * 中间栈 时间O(n)，空间O(n)
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
@@ -35,7 +35,7 @@ public class ReverseLinkedList {
 	}
 
 	/**
-	 * 中间数组
+	 * 中间数组 时间O(n)，空间O(n)
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
@@ -69,7 +69,7 @@ public class ReverseLinkedList {
 	}
 
 	/**
-	 * 头插
+	 * 头插 时间O(n)，空间O(1)
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
@@ -95,7 +95,7 @@ public class ReverseLinkedList {
 	}
 
 	/**
-	 * 多指针-后继反转
+	 * 多指针-后继反转 时间O(n)，空间O(1)
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
@@ -124,15 +124,12 @@ public class ReverseLinkedList {
 	}
 
 	/**
-	 * 递归：反转头结点；递归反转子链表；反转后的子链表挂上反转后的头结点
+	 * 递归：反转头结点；递归反转子链表；反转后的子链表挂上反转后的头结点 时间O(n)，空间O(1)
 	 * 
 	 * @param head 头结点
 	 * @return 反转后的头结点
 	 */
 	public static ListNode recur(ListNode head) {
-		if (head == null) {
-			return null;
-		}
 		if (head.next == null) {
 			return head;
 		}

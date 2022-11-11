@@ -3,7 +3,7 @@ package map;
 import java.util.Objects;
 
 /**
- * 基于单链表的建存储无序映射
+ * 基于单链表的键存储无序映射
  * 
  * @param <Key>   键类型
  * @param <Value> 值类型

@@ -4,7 +4,7 @@ import stack.SeqListStack;
 import stack.Stack;
 
 /**
- * 二叉搜索树，统一用循环实现
+ * 二叉搜索树，方法统一基于循环
  * 
  * @param <Elem> 元素类型，必须可比，不可取null
  */

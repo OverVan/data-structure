@@ -102,7 +102,7 @@ public class Sort<Elem extends Comparable<Elem>> {
 	 * @param elems 元素数组
 	 * @param left  闭区间左端下标
 	 * @param right 闭区间右端下标
-	 * @param index 闭区间内枢轴下标
+	 * @param index 闭区间内枢轴下标 本方案要求枢轴固定为0，至于随机枢轴有待研究
 	 */
 	public void quick(Elem[] elems, int left, int right, int index) {
 		// 左端下标等于右端下标-仅1个元素，直接返回

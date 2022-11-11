@@ -47,4 +47,19 @@ public class LinkedListTest {
 		System.out.println(linkedList.toNormalString());
 		System.out.println(linkedList.toReverseString());
 	}
+
+	@Test
+	void testDummyCircularLinkedList() {
+		DummyCircularLinkedList<Integer> linkedList = new DummyCircularLinkedList<>();
+		for (int i = 0; i < 5; i++) {
+			linkedList.addLast(i);
+		}
+		System.out.println(linkedList);
+		System.out.println(linkedList.removeFirst());
+		System.out.println(linkedList.removeLast());
+		System.out.println(linkedList.removeFirst());
+		System.out.println(linkedList.removeLast());
+		System.out.println(linkedList.removeFirst());
+		System.out.println(linkedList);
+	}
 }

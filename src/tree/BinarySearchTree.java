@@ -129,7 +129,6 @@ public class BinarySearchTree<Elem extends Comparable<Elem>> {
 		if (node == null) {
 			return false;
 		}
-		// 考虑元素为null，得设null最小还是最大 if(node.elem == null || node.elem.compareTo(elem) > 0)
 		if (node.elem.compareTo(elem) > 0) {
 			return contains(node.left, elem);
 		} else if (node.elem.compareTo(elem) < 0) {

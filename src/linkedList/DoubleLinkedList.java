@@ -106,7 +106,7 @@ public class DoubleLinkedList<Elem> {
 	 * @return
 	 */
 	public Elem removeLast() {
-		if (size == 0) {
+		if (isEmpty()) {
 			throw new RuntimeException("链表为空，无法删除");
 		}
 		Node del = tail;

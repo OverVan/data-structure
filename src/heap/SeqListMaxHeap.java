@@ -34,10 +34,10 @@ public class SeqListMaxHeap<Elem extends Comparable<Elem>> {
 	 */
 	public SeqListMaxHeap(Elem[] elems) {
 		// 朴素的想法是依次取元素做下沉，复杂度是O(nlogn)
-		// 更好的做法是从最后一个非叶子结点下标开始往前遍历，依次做下沉，复杂度难算，为O(n)
+		// 更好的做法是从最后一个非叶子结点开始往前遍历，依次做下沉，复杂度难算，为O(n)
 		seqList = new DynamicSeqList<>(elems);
 		if (elems.length > 1) {
-			// 最后一个非叶子结点即最大编号结点的父结点
+			// 最后一个非叶子结点即最后一个非叶子结点的父结点
 			for (int i = parent(getSize() - 1); i >= 0; i--) {
 				siftDown(i);
 			}

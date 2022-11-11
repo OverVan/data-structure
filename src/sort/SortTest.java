@@ -8,28 +8,28 @@ class SortTest {
 
 	@Test
 	void testSort() {
-		Integer[] elems = { 2, 1, 3, 7, null, 3, 6, 5, 5, 4, 8, null };
+		Integer[] elems = { 2, 1, 3, 7, 3, 6, 5, 5, 4, 8 };
 		new Sort<Integer>().bubble(elems);
 		System.out.println(Arrays.toString(elems));
 	}
 
 	@Test
 	void testSelect() {
-		Integer[] elems = { 2, 1, 3, 7, null, 3, 6, 5, 5, 4, 8, null };
+		Integer[] elems = { 2, 1, 3, 7, 3, 6, 5, 5, 4, 8 };
 		new Sort<Integer>().select(elems);
 		System.out.println(Arrays.toString(elems));
 	}
 
 	@Test
 	void testInsert() {
-		Integer[] elems = { 2, 1, 3, 7, null, 3, 6, 5, 5, 4, 8, null };
+		Integer[] elems = { 2, 1, 3, 7, 3, 6, 5, 5, 4, 8 };
 		new Sort<Integer>().insert(elems);
 		System.out.println(Arrays.toString(elems));
 	}
 
 	@Test
 	void testQuick() {
-		Integer[] elems = { 2, 1, 3, 7, null, 3, 6, 5, 5, 4, 8, null };
+		Integer[] elems = { 2, 1, 3, 7, 3, 6, 5, 5, 4, 8 };
 		new Sort<Integer>().quick(elems, 0, elems.length - 1, 0);
 		System.out.println(Arrays.toString(elems));
 	}

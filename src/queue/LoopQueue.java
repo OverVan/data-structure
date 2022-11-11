@@ -10,7 +10,7 @@ public class LoopQueue<Elem> implements Queue<Elem> {
 	private Elem[] data;
 	// 队首-队首元素的下标
 	private int front;
-	// 队尾-队尾元素下标+1，不加1无法描述队列空的情况
+	// 队尾-队尾元素下标+1，不加1无法描述队列空的情况，跟满冲突了
 	private int rear;
 	// 长度-有效元素个数，仅凭front、rear也可计算得出，size则通过自增、自减来监控
 	private int size;
